@@ -211,7 +211,7 @@ footer a { color:var(--bronze); text-decoration:none; }
   .main-nav .btn{flex:1 1 auto;font-size:12px !important;padding:10px 8px !important;}
   .date-cal-wrap{width:100%;}
   .date-badge{width:100%;justify-content:center;font-size:13px;}
-  .chart-wrap{height:260px !important;}
+  .chart-wrap{height:320px !important;}
   .section-title{font-size:14px;}
   .pbi-pill{min-height:38px;}
   .pbi-radio{min-height:36px;}
@@ -370,7 +370,7 @@ td { padding: 5px 6px !important; }
 footer { padding: 6px 14px !important; font-size: 11px !important; }
 
 .pbi-sidebar-toggle {
-    display:none; position:fixed; top:60px; right:8px; z-index:200;
+    display:none; position:fixed; bottom:8px; left:8px; top:auto; right:auto; z-index:401;
     background: var(--bronze); color:#fff; border:none; padding:6px 10px;
     border-radius:6px; font-weight:700; cursor:pointer;
 }
@@ -562,7 +562,7 @@ body.force-mobile .pbi-sidebar-toggle{ display:block; }
   body.force-mobile .main-nav .btn{flex:1 1 auto;font-size:12px !important;padding:10px 8px !important;}
   body.force-mobile .date-cal-wrap{width:100%;}
   body.force-mobile .date-badge{width:100%;justify-content:center;font-size:13px;}
-  body.force-mobile .chart-wrap{height:260px !important;}
+  body.force-mobile .chart-wrap{height:320px !important;}
   body.force-mobile .section-title{font-size:14px;}
   body.force-mobile .pbi-pill{min-height:38px;}
   body.force-mobile .pbi-radio{min-height:36px;}
@@ -2033,8 +2033,10 @@ function showSubSection(id, btn) {
     document.getElementById(id).classList.add('active');
     btn.classList.add('active');
     if(typeof __salesBehaviors==='function') __salesBehaviors();
+    if(typeof __resizeCharts==='function') __resizeCharts();
 }
 
+window.__lf=function(px){try{return (window.innerWidth<=820||(document.body&&document.body.classList.contains('force-mobile')))?Math.max(8,Math.round(px*0.66)):px;}catch(e){return px;}};
 Chart.defaults.color = '#595959';
 try { Chart.defaults.scale = Chart.defaults.scale || {}; Chart.defaults.scale.grid = Chart.defaults.scale.grid || {}; Chart.defaults.scale.grid.display = false; } catch(e) {}
 Chart.defaults.borderColor = '#e2e4e6';
@@ -2100,7 +2102,7 @@ const __t1_customLabels = {
         const datasets = chart.data.datasets;
 
         ctx.save();
-        ctx.font = '800 16px Tajawal';
+        ctx.font='800 '+__lf(16)+'px Tajawal';
         ctx.fillStyle = '#fff';
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 3;
@@ -2151,7 +2153,7 @@ const __t1_customLabels = {
             });
         } else if (cfg.kind === 'line') {
             const planTotal = (datasets[0] && datasets[0].data) ? datasets[0].data[datasets[0].data.length-1] : 0;
-            ctx.font = '800 13px Tajawal';
+            ctx.font='800 '+__lf(13)+'px Tajawal';
             datasets.forEach(function(ds, dIdx){
                 const meta = chart.getDatasetMeta(dIdx);
                 if (!meta || !meta.data) return;
@@ -2168,7 +2170,7 @@ const __t1_customLabels = {
                     else { ctx.textBaseline = 'top'; draw(t, pt.x, pt.y + 7); }
                 });
             });
-            ctx.font = '800 16px Tajawal';
+            ctx.font='800 '+__lf(16)+'px Tajawal';
         } else {
             datasets.forEach(function(dataset, dIdx) {
                 const meta = chart.getDatasetMeta(dIdx);
@@ -2217,11 +2219,11 @@ const __t1_customLabels = {
                         var __mm = cfg.dates && cfg.dates[__lab];
                         var __dv = __mm ? __mm[dIdx] : '';
                         if (__dv) {
-                            ctx.font = '800 12px Tajawal';
+                            ctx.font='800 '+__lf(12)+'px Tajawal';
                             var __hz = chart.options && chart.options.indexAxis === 'y';
                             if (__hz) { ctx.textBaseline='middle'; if (v >= 0) { ctx.textAlign='left'; draw(__dv, elem.x + 5, elem.y); } else { ctx.textAlign='right'; draw(__dv, elem.x - 5, elem.y); } }
                             else { ctx.textAlign='center'; if (v >= 0) { ctx.textBaseline='bottom'; draw(__dv, elem.x, elem.y - 4); } else { ctx.textBaseline='top'; draw(__dv, elem.x, elem.y + 4); } }
-                            ctx.font = '800 16px Tajawal';
+                            ctx.font='800 '+__lf(16)+'px Tajawal';
                         }
                     } else if (cfg.kind === 'simple-vert-signed') {
                         x = elem.x;
@@ -2262,7 +2264,7 @@ const __t1_customLabels = {
                         if (__cnt != null) { __cntT = cfg.numUnit ? (Number(__cnt).toFixed(1) + cfg.numUnit) : String(__cnt); }
                         var __base2 = (typeof base === 'number') ? base : BOTTOM;
                         var __barH = Math.abs(__base2 - elem.y);
-                        ctx.font = '800 13px Tajawal';
+                        ctx.font='800 '+__lf(13)+'px Tajawal';
                         if (__barH >= 22) {
                             ctx.textBaseline='bottom'; if (__pctT) draw(__pctT, x, elem.y - 5);
                             ctx.textBaseline = 'middle'; if (__cntT) draw(__cntT, x, (elem.y + __base2) / 2);
@@ -2271,7 +2273,7 @@ const __t1_customLabels = {
                             if (__cntT) draw(__cntT, x, elem.y - 4);
                             if (__pctT) draw(__pctT, x, elem.y - 19);
                         }
-                        ctx.font = '800 16px Tajawal';
+                        ctx.font='800 '+__lf(16)+'px Tajawal';
                     } else {
                         // simple-vert: always above bar; if no room, put inside
                         x = elem.x;
@@ -3361,7 +3363,7 @@ const __t2_customLabels = {
         const datasets = chart.data.datasets;
 
         ctx.save();
-        ctx.font = '800 16px Tajawal';
+        ctx.font='800 '+__lf(16)+'px Tajawal';
         ctx.fillStyle = '#fff';
         ctx.strokeStyle = '#000';
         ctx.lineWidth = 3;
@@ -3778,7 +3780,7 @@ window.__EFF={"s78":{"A1":6.39,"A2":1.32,"A3":0.65,"A4":0,"B1":0,"B2":40.44,"C1"
    });
  }
  window.__effCharts=[];
- var __effLabel={id:'effLabel',afterDatasetsDraw:function(chart){ try{var ctx=chart.ctx;var ds=chart.data.datasets[0];var meta=chart.getDatasetMeta(0);if(chart.isDatasetVisible&&!chart.isDatasetVisible(0))return;ctx.save();ctx.font='700 11px Tajawal, sans-serif';ctx.fillStyle='#5a4633';ctx.textAlign='center';ctx.textBaseline='bottom';meta.data.forEach(function(el,idx){var v=ds.data[idx];if(v==null)return;ctx.fillText((Math.round(v*100)/100).toFixed(2),el.x,el.y-4);});ctx.restore();}catch(e){} }};
+ var __effLabel={id:'effLabel',afterDatasetsDraw:function(chart){ try{var ctx=chart.ctx;var ds=chart.data.datasets[0];var meta=chart.getDatasetMeta(0);if(chart.isDatasetVisible&&!chart.isDatasetVisible(0))return;ctx.save();ctx.font='700 '+__lf(11)+'px Tajawal, sans-serif';ctx.fillStyle='#5a4633';ctx.textAlign='center';ctx.textBaseline='bottom';meta.data.forEach(function(el,idx){var v=ds.data[idx];if(v==null)return;ctx.fillText((Math.round(v*100)/100).toFixed(2),el.x,el.y-4);});ctx.restore();}catch(e){} }};
  function makeEff(cid,page,tblKw,data,title){
    if(!page||document.getElementById(cid))return;
    var labels=Object.keys(data); if(!labels.length)return;
@@ -3810,15 +3812,15 @@ window.__SCURVE={"labels":["Q2-24","Q3-24","Q4-24","Q1-25","Q2-25","Q3-25","Q4-2
  function curIdx(labels){ var iso=window.__activeWeek||'2026-07-07'; var p=iso.split('-'); var m=(+p[1])-1; var q=Math.floor(m/3)+1; var lab='Q'+q+'-'+String((+p[0])%100); var i=labels.indexOf(lab); return i<0?labels.length-1:i; }
  window.__scDataDate=null; window.__scMarker=null;
  function selProjects(){ var f=window.__activeFilters||{}; var all=Object.keys(window.__SCURVE.projects); if(f.project&&f.project!=='all') return [f.project]; if(f.owner&&typeof __OWNERS!=='undefined'&&__OWNERS[f.owner]) return all.filter(function(p){return __OWNERS[f.owner].projects.indexOf(p)>=0;}); return all; }
- var scLbl={id:'scLbl',afterDatasetsDraw:function(chart){ try{var ctx=chart.ctx;ctx.save();ctx.textBaseline='bottom';ctx.font='700 10px Tajawal, sans-serif';
+ var scLbl={id:'scLbl',afterDatasetsDraw:function(chart){ try{var ctx=chart.ctx;ctx.save();ctx.textBaseline='bottom';ctx.font='700 '+__lf(10)+'px Tajawal, sans-serif';
    chart.data.datasets.forEach(function(ds,di){var meta=chart.getDatasetMeta(di); if(chart.isDatasetVisible&&!chart.isDatasetVisible(di))return; var arr=ds.data;var last=-1;for(var k=arr.length-1;k>=0;k--){if(arr[k]!=null){last=k;break;}}
      meta.data.forEach(function(pt,i){var v=arr[i];if(v==null||v===0||!pt)return; if(ds.__noPtLabel && i!==last) return; if((ds.__lastOnly || chart.data.datasets.length>3) && i!==last && !ds.__avgLine) return; ctx.fillStyle=ds.borderColor;
-       if(i===last&&ds.__money){ctx.textAlign='right';ctx.font='700 11px Tajawal, sans-serif';ctx.fillText(v+'% ('+fmtMoney(ds.__money[i])+')',pt.x-2,pt.y-8);ctx.font='700 10px Tajawal, sans-serif';}
+       if(i===last&&ds.__money){ctx.textAlign='right';ctx.font='700 '+__lf(11)+'px Tajawal, sans-serif';ctx.fillText(v+'% ('+fmtMoney(ds.__money[i])+')',pt.x-2,pt.y-8);ctx.font='700 '+__lf(10)+'px Tajawal, sans-serif';}
        else{ctx.textAlign='center';ctx.fillText(v+'%',pt.x,pt.y-7);}});});ctx.restore();}catch(e){} }};
  var scMarker={id:'scMarker',afterDraw:function(chart){ try{var m=window.__scMarker; if(!m)return; var x=chart.scales.x.getPixelForValue(m.idx); var ca=chart.chartArea, ctx=chart.ctx; ctx.save();
    ctx.strokeStyle='#c62828'; ctx.lineWidth=1.5; ctx.setLineDash([5,4]); ctx.beginPath(); ctx.moveTo(x,ca.top); ctx.lineTo(x,ca.bottom); ctx.stroke(); ctx.setLineDash([]);
-   ctx.font='800 12px Tajawal, sans-serif'; ctx.fillStyle='#c62828'; ctx.textAlign='center'; ctx.textBaseline='bottom';
-   ctx.fillText(Math.round(m.pct)+'% — '+fmtMoney(m.money), x, ca.top-4); ctx.textBaseline='top'; ctx.font='700 10px Tajawal, sans-serif'; ctx.fillText('تاريخ اليوم', x, ca.top+2); ctx.restore();}catch(e){} }};
+   ctx.font='800 '+__lf(12)+'px Tajawal, sans-serif'; ctx.fillStyle='#c62828'; ctx.textAlign='center'; ctx.textBaseline='bottom';
+   ctx.fillText(Math.round(m.pct)+'% — '+fmtMoney(m.money), x, ca.top-4); ctx.textBaseline='top'; ctx.font='700 '+__lf(10)+'px Tajawal, sans-serif'; ctx.fillText('تاريخ اليوم', x, ca.top+2); ctx.restore();}catch(e){} }};
  window.__scChart=null;
  function updateSC(){ if(!window.__scChart)return; var f=window.__activeFilters||{}, P=window.__SCURVE.projects, N=window.__SCURVE.labels.length, dd=(window.__scDataDate=curIdx(window.__SCURVE.labels));
    var real=Object.keys(P).filter(function(p){return P[p].finalP>0;});
